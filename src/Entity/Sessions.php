@@ -164,4 +164,9 @@ class Sessions
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->Date->format('d/m/Y');
+    }
 }

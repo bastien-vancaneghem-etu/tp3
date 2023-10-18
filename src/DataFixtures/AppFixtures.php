@@ -22,7 +22,8 @@ class AppFixtures extends Fixture
         // Récupération des roles
         $roles = $manager->getRepository(Roles::class)->findAll();
 
-        // Création de 4 utilisateurs
+
+        // Création de 10 sessions
         for($u=0;$u<4;$u++){
             // Création d'un nouvel objet
             $user = new Users;
@@ -30,7 +31,7 @@ class AppFixtures extends Fixture
             // On nourrit l'objet
 
             $user->setName($faker->name())
-                ->setTag($faker->randomElement($roles));
+                ->setRole();
 
             // On fait persister les données
             $manager->persist($user);
