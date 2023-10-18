@@ -13,5 +13,9 @@ class AppFixtures extends Fixture
         // $manager->persist($product);
 
         $manager->flush();
+
+        $faker = Factory::create('fr_FR');
+        
+
     }
 }
