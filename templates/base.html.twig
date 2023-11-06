@@ -11,6 +11,10 @@
         {% endblock %}
     </head>
     <body>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <p>Vous êtes connecté en tant que {{app.user.email}}</p>
+            <a href="{{ path('app_logout') }}">Déconnexion</a>
+        {% endif %}
         {% block body %}{% endblock %}
     </body>
 </html>

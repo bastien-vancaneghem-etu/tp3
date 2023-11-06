@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tasks;
+use App\Entity\User;
 use App\Form\TasksType;
 use App\Repository\TasksRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,6 +21,8 @@ class TasksController extends AbstractController
         return $this->render('tasks/index.html.twig', [
             'tasks' => $tasksRepository->findAll(),
         ]);
+        // $user = $this->getUser();
+        // dd($user);
     }
 
     #[Route('/new', name: 'app_tasks_new', methods: ['GET', 'POST'])]
