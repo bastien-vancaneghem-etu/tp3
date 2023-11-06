@@ -4,8 +4,6 @@ namespace App\DataFixtures;
 
 use Faker\Factory;
 use App\Entity\User;
-use App\Entity\Roles;
-use App\Entity\Users;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -31,7 +29,7 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         // Récupération des roles
-        $roles = $manager->getRepository(Roles::class)->findAll();
+        // $roles = $manager->getRepository(Roles::class)->findAll();
 
 
         // Création de 10 sessions
