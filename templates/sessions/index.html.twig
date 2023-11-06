@@ -13,6 +13,7 @@
                 <th>EndTime</th>
                 <th>Date</th>
                 <th>Duration</th>
+                <th>User</th>
                 <th>Comments</th>
                 <th>Responses</th>
                 <th>actions</th>
@@ -26,6 +27,7 @@
                 <td>{{ session.endTime ? session.endTime|date('H:i:s') : '' }}</td>
                 <td>{{ session.Date ? session.Date|date('Y-m-d') : '' }}</td>
                 <td>{{ session.Duration ? session.Duration|date('H:i:s') : '' }}</td>
+                <td>{{ session.User }}</td>
                 <td>{{ session.Comments }}</td>
                 <td>{{ session.Responses }}</td>
                 <td>

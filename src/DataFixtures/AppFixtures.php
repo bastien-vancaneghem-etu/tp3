@@ -4,6 +4,8 @@ namespace App\DataFixtures;
 
 use Faker\Factory;
 use App\Entity\User;
+use App\Entity\Tasks;
+use App\Entity\Sessions;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -46,7 +48,10 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }*/
 
+
+
         //création de 5 utilisateurs
+        $users = [];
         for($u=0;$u<5;$u++){
             // Création d'un nouvel objet
             $user = new User;
@@ -58,6 +63,9 @@ class AppFixtures extends Fixture
                     ->setEmail('test@test.com');
             } else {
                 $user->setEmail($faker->safeEmail());
+
+                // On ajoute l'utilisateur au tableau
+                $users[] = $user;
             }
 
             // On hash le mot de passe
@@ -67,6 +75,40 @@ class AppFixtures extends Fixture
 
             // On fait persister les données
             $manager->persist($user);
+        }
+
+        $sessions = [];
+
+        //création de 10 sessions
+        for($t=0;$t<10;$t++){
+            // Création d'un nouvel objet Sessions
+            $session = new Sessions;
+
+            // On nourrit l'objet
+            $session->setStartTime($faker->dateTimeBetween('-1 years', 'now'))
+                ->setEndTime($faker->dateTimeBetween('-1 years', 'now'))
+                ->setDate($faker->dateTimeBetween('-1 years', 'now'))
+                ->setDuration($faker->dateTimeBetween('-1 years', 'now'))
+                ->setUser($faker->randomElement($users));
+
+            // On ajoute la session au tableau
+            $sessions[] = $session;
+
+            // On fait persister les données
+            $manager->persist($session);
+        }
+
+        for($t=0;$t<50;$t++){
+            // Création d'un nouvel objet Tasks
+            $task = new Tasks;
+
+            // On nourrit l'objet
+            $task->setName($faker->sentence(3))
+                ->setStatue($faker->boolean())
+                ->setSession($faker->randomElement($sessions));
+
+            // On fait persister les données
+            $manager->persist($task);
         }
 
         //push en bdd
