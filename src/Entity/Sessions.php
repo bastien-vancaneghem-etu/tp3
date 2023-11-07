@@ -28,12 +28,6 @@ class Sessions
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $Duration = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $Comments = null;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $Responses = null;
-
     #[ORM\ManyToOne(inversedBy: 'sessions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -41,9 +35,16 @@ class Sessions
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: Tasks::class)]
     private Collection $tasks;
 
+    #[ORM\Column(length: 10)]
+    private ?string $statue = null;
+
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Comment::class)]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,30 +100,6 @@ class Sessions
         return $this;
     }
 
-    public function getComments(): ?string
-    {
-        return $this->Comments;
-    }
-
-    public function setComments(?string $Comments): static
-    {
-        $this->Comments = $Comments;
-
-        return $this;
-    }
-
-    public function getResponses(): ?string
-    {
-        return $this->Responses;
-    }
-
-    public function setResponses(?string $Responses): static
-    {
-        $this->Responses = $Responses;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -168,5 +145,47 @@ class Sessions
     public function __toString(): string
     {
         return $this->Date->format('d/m/Y');
+    }
+
+    public function getStatue(): ?string
+    {
+        return $this->statue;
+    }
+
+    public function setStatue(string $statue): static
+    {
+        $this->statue = $statue;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getSession() === $this) {
+                $comment->setSession(null);
+            }
+        }
+
+        return $this;
     }
 }
