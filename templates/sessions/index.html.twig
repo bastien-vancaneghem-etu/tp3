@@ -14,8 +14,7 @@
                 <th>Date</th>
                 <th>Duration</th>
                 <th>User</th>
-                <th>Comments</th>
-                <th>Responses</th>
+                <th>Statue</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -28,11 +27,12 @@
                 <td>{{ session.Date ? session.Date|date('Y-m-d') : '' }}</td>
                 <td>{{ session.Duration ? session.Duration|date('H:i:s') : '' }}</td>
                 <td>{{ session.User }}</td>
-                <td>{{ session.Comments }}</td>
-                <td>{{ session.Responses }}</td>
+                <td>{{ session.Statue }}</td>
                 <td>
                     <a href="{{ path('app_sessions_show', {'id': session.id}) }}">show</a>
-                    <a href="{{ path('app_sessions_edit', {'id': session.id}) }}">edit</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_sessions_edit', {'id': session.id}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -43,5 +43,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_sessions_new') }}">Create new</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_sessions_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}
