@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use App\Entity\User;
 use App\Entity\Tasks;
+use App\Entity\Comment;
 use App\Entity\Sessions;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -78,6 +79,7 @@ class AppFixtures extends Fixture
         }
 
         $sessions = [];
+        $statueSession = ['started', 'finished', 'stopped'];
 
         //création de 10 sessions
         for($t=0;$t<10;$t++){
@@ -89,7 +91,8 @@ class AppFixtures extends Fixture
                 ->setEndTime($faker->dateTimeBetween('-1 years', 'now'))
                 ->setDate($faker->dateTimeBetween('-1 years', 'now'))
                 ->setDuration($faker->dateTimeBetween('-1 years', 'now'))
-                ->setUser($faker->randomElement($users));
+                ->setUser($faker->randomElement($users))
+                ->setStatue($faker->randomElement($statueSession));
 
             // On ajoute la session au tableau
             $sessions[] = $session;
@@ -98,6 +101,21 @@ class AppFixtures extends Fixture
             $manager->persist($session);
         }
 
+        //création de commentaires
+        for($c=0;$c<20;$c++){
+            // Création d'un nouvel objet Tasks
+            $comment = new Comment;
+
+            // On nourrit l'objet
+            $comment->setQuestion($faker->sentence(3))
+                ->setResponse($faker->sentence(3))
+                ->setSession($faker->randomElement($sessions));
+
+            // On fait persister les données
+            $manager->persist($comment);
+        }
+
+        //création de 50 tâches
         for($t=0;$t<50;$t++){
             // Création d'un nouvel objet Tasks
             $task = new Tasks;
