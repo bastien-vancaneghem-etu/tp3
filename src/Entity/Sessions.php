@@ -28,18 +28,14 @@ class Sessions
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $Duration = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sessions')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
-
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Tasks::class)]
-    private Collection $tasks;
-
     #[ORM\Column(length: 10)]
     private ?string $statue = null;
 
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: Comment::class)]
     private Collection $comments;
+
+    #[ORM\ManyToOne(inversedBy: 'sessions')]
+    private ?User $user = null;
 
     public function __construct()
     {

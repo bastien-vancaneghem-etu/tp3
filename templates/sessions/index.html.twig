@@ -3,31 +3,38 @@
 {% block title %}Sessions index{% endblock %}
 
 {% block body %}
-    <h1>Sessions index</h1>
+
+    {% if not is_granted('ROLE_ADMIN') %}
+        <h1>Bonjour, voici vos sessions :</h1>
+    {% else %}
+        <h1>Bonjour, voici toutes les sessions :</h1>
+    {% endif %}
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>StartTime</th>
                 <th>EndTime</th>
                 <th>Date</th>
                 <th>Duration</th>
-                <th>User</th>
                 <th>Statue</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>User</th>
+                {% endif %}
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for session in sessions %}
             <tr>
-                <td>{{ session.id }}</td>
                 <td>{{ session.startTime ? session.startTime|date('H:i:s') : '' }}</td>
                 <td>{{ session.endTime ? session.endTime|date('H:i:s') : '' }}</td>
                 <td>{{ session.Date ? session.Date|date('Y-m-d') : '' }}</td>
                 <td>{{ session.Duration ? session.Duration|date('H:i:s') : '' }}</td>
-                <td>{{ session.User }}</td>
                 <td>{{ session.Statue }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td>{{ session.User }}</td>
+                {% endif %}
                 <td>
                     <a href="{{ path('app_sessions_show', {'id': session.id}) }}">show</a>
                     {% if is_granted('ROLE_ADMIN') %}

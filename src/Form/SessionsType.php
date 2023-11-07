@@ -16,8 +16,7 @@ class SessionsType extends AbstractType
             ->add('endTime')
             ->add('Date')
             ->add('Duration')
-            ->add('Comments')
-            ->add('Responses')
+            ->add('statue')
             ->add('user')
         ;
     }

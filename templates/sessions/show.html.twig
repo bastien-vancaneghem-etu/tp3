@@ -8,10 +8,6 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ session.id }}</td>
-            </tr>
-            <tr>
                 <th>StartTime</th>
                 <td>{{ session.startTime ? session.startTime|date('H:i:s') : '' }}</td>
             </tr>
@@ -27,20 +23,24 @@
                 <th>Duration</th>
                 <td>{{ session.Duration ? session.Duration|date('H:i:s') : '' }}</td>
             </tr>
+            {% if is_granted('ROLE_ADMIN') %}
+                <tr>
+                    <th>User</th>
+                    <td>{{ session.User }}</td>
+                </tr>
+            {% endif %}
             <tr>
-                <th>Comments</th>
-                <td>{{ session.Comments }}</td>
-            </tr>
-            <tr>
-                <th>Responses</th>
-                <td>{{ session.Responses }}</td>
+                <th>Statue</th>
+                <td>{{ session.Statue }}</td>
             </tr>
         </tbody>
     </table>
 
     <a href="{{ path('app_sessions_index') }}">back to list</a>
 
-    <a href="{{ path('app_sessions_edit', {'id': session.id}) }}">edit</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_sessions_edit', {'id': session.id}) }}">edit</a>
+        {{ include('sessions/_delete_form.html.twig') }}
+    {% endif %}
 
-    {{ include('sessions/_delete_form.html.twig') }}
 {% endblock %}
